@@ -42,7 +42,7 @@ public class FollowUpController {
         model.addAttribute("statusOptions", Arrays.asList(StatusEnum.values())); // Status options
         model.addAttribute("selectedStatus", status); // Preserve selected status in dropdown
 
-        return "FollowUp.jsp";
+        return "FollowUp";
     }
 
     @PostMapping("updateFollowUp")
@@ -58,9 +58,16 @@ public class FollowUpController {
                 model.addAttribute("enquiryList", enquiryList);
                 model.addAttribute("statusOptions", Arrays.asList(StatusEnum.values()));
 
-                return "FollowUp.jsp";
+                return "FollowUp";
             }
         }
-        return "FollowUp.jsp";
+        return "FollowUp";
+    }
+
+    @GetMapping("/view")
+    public String view(String name,long phoneNo){
+        System.out.println("================");
+
+        return "ViewPage";
     }
 }

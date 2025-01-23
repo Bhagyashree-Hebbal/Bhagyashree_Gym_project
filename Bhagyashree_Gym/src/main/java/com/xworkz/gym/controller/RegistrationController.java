@@ -1,7 +1,8 @@
 package com.xworkz.gym.controller;
 
-import com.xworkz.gym.dto.EnquiryDTO;
+import com.xworkz.gym.dto.RegistrationDTO;
 import com.xworkz.gym.service.GymService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,22 +10,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/")
-public class EnquiryController {
-
+@Slf4j
+public class RegistrationController {
     @Autowired
     public GymService gymService;
 
-    EnquiryController(){
-        System.out.println("No-arg const in EnquiryController");
+    RegistrationController(){
+        //System.out.println("No-arg const in RegistrationController");
+        log.info("RegistrationController no arg const");
     }
 
-    @PostMapping("/enquiry")
-    public String enquired(EnquiryDTO enquiryDTO){
-        boolean display = gymService.enquirySave(enquiryDTO);
+    @PostMapping("/registration")
+    public String registration(RegistrationDTO registrationDTO){
+        boolean display = gymService.registrationSave(registrationDTO);
         if(display){
             return "Intermediate";
         }else{
-            return "Enquiry";
+            return "Registration";
         }
     }
 }

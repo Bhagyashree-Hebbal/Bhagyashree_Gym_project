@@ -9,6 +9,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "enquiry_followup_table")
 @RequiredArgsConstructor
+@NamedQuery(name = "countByName" , query ="select count(*) from EnquiryEntity ae where ae.name = :SetName")
+@NamedQuery(name = "countByArea", query = "select count(*) from EnquiryEntity ae where ae.area = :SetArea")
+@NamedQuery(name = "countByPhoneNo", query = "select count(*) from EnquiryEntity ae where ae.phoneNo = :SetPhoneNo")
+@NamedQuery(name = "countByDistance", query = "select count(*) from EnquiryEntity ae where ae.distance = :SetDistance")
+@NamedQuery(name = "countByAge", query = "select count(*) from EnquiryEntity ae where ae.age = :SetAge")
 public class EnquiryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

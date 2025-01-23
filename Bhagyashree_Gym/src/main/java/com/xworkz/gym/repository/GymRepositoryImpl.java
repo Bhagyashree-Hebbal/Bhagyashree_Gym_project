@@ -1,8 +1,7 @@
 package com.xworkz.gym.repository;
 
-import com.xworkz.gym.entity.AdminEntity;
 import com.xworkz.gym.entity.EnquiryEntity;
-import com.xworkz.gym.entity.FollowUpEntity;
+import com.xworkz.gym.entity.RegistrationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -40,13 +38,13 @@ public class GymRepositoryImpl implements GymRepository{
 //    }
 
     @Override
-    public boolean getName(String email, String password) {
-        System.out.println("getNameByEmailAndPassword query in GymRepositoryImpl");
+    public boolean getValue(String email, String password) {
+        System.out.println("getName query in GymRepositoryImpl");
         EntityManager em = emf.createEntityManager();
         EntityTransaction et = em.getTransaction();
         try {
             et.begin();
-            Query query = em.createNamedQuery("getNameByEmailAndPassword");
+            Query query = em.createNamedQuery("getEmailAndPassword");
             query.setParameter("setEmail",email);
             query.setParameter("setPassword",password);
             Object pass = query.getSingleResult();
@@ -69,6 +67,153 @@ public class GymRepositoryImpl implements GymRepository{
         }
         //return true;
     }
+
+    @Override
+    public Long getCountByName(String name) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        Long count = (Long) em.createNamedQuery("countByName").setParameter("SetName", name).getSingleResult();
+
+        try {
+            et.begin();
+            et.commit();
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+        } finally {
+            em.close();
+        }
+        return count;
+    }
+
+    @Override
+    public Long getCountByArea(String area) {
+        EntityManager em = emf.createEntityManager();
+        Long count = 0L;
+        try {
+            count = (Long) em.createNamedQuery("countByArea").setParameter("SetArea", area).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return count;
+    }
+
+    @Override
+    public Long getCountByPhoneNo(long phoneNo) {
+        EntityManager em = emf.createEntityManager();
+        Long count = 0L;
+        try {
+            count = (Long) em.createNamedQuery("countByPhoneNo").setParameter("SetPhoneNo", phoneNo).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the error
+        } finally {
+            em.close();
+        }
+        return count;
+    }
+
+    @Override
+    public Long getCountByDistance(double distance) {
+        EntityManager em = emf.createEntityManager();
+        Long count = 0L;
+        try {
+            count = (Long) em.createNamedQuery("countByDistance").setParameter("SetDistance", distance).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the error
+        } finally {
+            em.close();
+        }
+        return count;
+    }
+
+    @Override
+    public Long getCountByAge(int age) {
+        EntityManager em = emf.createEntityManager();
+        Long count = 0L;
+        try {
+            count = (Long) em.createNamedQuery("countByAge").setParameter("SetAge", age).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the error
+        } finally {
+            em.close();
+        }
+        return count;
+    }
+
+    @Override
+    public Long getCountByRegiName(String name) {
+        EntityManager em = emf.createEntityManager();
+        Long count = 0L;
+        try {
+            count = (Long) em.createNamedQuery("countByRegiName").setParameter("SetName", name).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return count;
+    }
+
+    @Override
+    public Long getCountByRegiEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+        Long count = 0L;
+        try {
+            count = (Long) em.createNamedQuery("countByRegiEmail").setParameter("SetEmail", email).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return count;
+    }
+
+    @Override
+    public Long getCountByRegiPhoneNo(long phoneNo) {
+        EntityManager em = emf.createEntityManager();
+        Long count = 0L;
+        try {
+            count = (Long) em.createNamedQuery("countByRegiPhoneNo").setParameter("SetPhoneNo", phoneNo).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return count;
+    }
+
+    @Override
+    public Long getCountByGymName(String gymName) {
+        EntityManager em = emf.createEntityManager();
+        Long count = 0L;
+        try {
+            count = (Long) em.createNamedQuery("countByGymName").setParameter("SetGymName", gymName).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return count;
+    }
+
+    @Override
+    public Long getCountByTrainer(String gymTrainer) {
+        EntityManager em = emf.createEntityManager();
+        Long count = 0L;
+        try {
+            count = (Long) em.createNamedQuery("countByGymTrainer").setParameter("SetGymTrainer", gymTrainer).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return count;
+    }
+
+
 
     @Override
     public boolean enquirySave(EnquiryEntity enquiryEntity) {
@@ -129,7 +274,7 @@ public class GymRepositoryImpl implements GymRepository{
         System.out.println("Running updateStatusAndReason in GymRepositoryImpl");
         EntityManager em = emf.createEntityManager();
         EntityTransaction et = em.getTransaction();
-        boolean isUpdated = false;
+        //boolean isUpdated = false;
 
         try {
             et.begin(); // Start the transaction
@@ -143,7 +288,7 @@ public class GymRepositoryImpl implements GymRepository{
                     .executeUpdate();
 
             et.commit(); // Commit the transaction if successful
-            isUpdated = rowsAffected > 0; // Return true if at least one row was updated
+             //isUpdated = true; // Return true if at least one row was updated
         } catch (Exception e) {
             if (et.isActive()) {
                 et.rollback(); // Rollback the transaction if there is an error
@@ -153,7 +298,54 @@ public class GymRepositoryImpl implements GymRepository{
             em.close(); // Ensure EntityManager is closed
         }
 
-        return isUpdated;
+        return true;
     }
 
+    @Override
+    public boolean registrationSave(RegistrationEntity registrationEntity) {
+        System.out.println("running registrationSave in GymRepositoryImpl");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        try {
+            et.begin();
+            em.merge(registrationEntity);
+            et.commit();
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+        } finally {
+            em.close();
+        }
+        return true;
+    }
+
+    @Override
+    public RegistrationEntity updateRegistration(String name, long phoneNo) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        String queryStr = "SELECT e FROM RegistrationEntity e WHERE e.name = :name AND e.phoneNo = :phoneNo";
+        RegistrationEntity result = null;
+
+        try {
+            et.begin();
+            Query query = em.createQuery(queryStr);
+            query.setParameter("name", name);
+            query.setParameter("phoneNo", phoneNo);
+            result = (RegistrationEntity) query.getSingleResult();
+            et.commit();
+        } catch (Exception e) {
+            System.err.println("Error in updateRegistration: " + e.getMessage());
+            if (et.isActive()) {
+                et.rollback();
+            }
+        } finally {
+            em.close();
+        }
+
+        return result;
+    }
+
+
 }
+

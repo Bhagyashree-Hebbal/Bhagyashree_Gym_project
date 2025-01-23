@@ -1,18 +1,22 @@
 package com.xworkz.gym.configuration;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("com.xworkz.gym")
 @EnableWebMvc
+@Slf4j
 public class GymConfiguration {
 
     GymConfiguration() {
@@ -22,7 +26,7 @@ public class GymConfiguration {
     @Bean
     public LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean(){
         LocalContainerEntityManagerFactoryBean bean =new LocalContainerEntityManagerFactoryBean();
-        //log.info("this is gym page");
+        log.info("this is gym page");
         bean.setPackagesToScan("com.xworkz.gym.entity");
         bean.setDataSource(dataSource());
         bean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
@@ -37,5 +41,10 @@ public class GymConfiguration {
         dataSource.setUsername("root");
         dataSource.setPassword("Xworkzodc@123");
         return dataSource;
+    }
+
+    @Bean
+    public ViewResolver viewResolver(){
+        return new InternalResourceViewResolver("/", ".jsp");
     }
 }
