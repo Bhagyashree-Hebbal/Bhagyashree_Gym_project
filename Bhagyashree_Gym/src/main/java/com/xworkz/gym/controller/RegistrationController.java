@@ -15,17 +15,17 @@ public class RegistrationController {
     @Autowired
     public GymService gymService;
 
-    RegistrationController(){
+    RegistrationController() {
         //System.out.println("No-arg const in RegistrationController");
         log.info("RegistrationController no arg const");
     }
 
     @PostMapping("/registration")
-    public String registration(RegistrationDTO registrationDTO){
+    public String registration(RegistrationDTO registrationDTO) {
         boolean display = gymService.registrationSave(registrationDTO);
-        if(display){
+        if (display) {
             return "Intermediate";
-        }else{
+        } else {
             return "Registration";
         }
     }

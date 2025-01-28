@@ -24,8 +24,8 @@ public class GymConfiguration {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean(){
-        LocalContainerEntityManagerFactoryBean bean =new LocalContainerEntityManagerFactoryBean();
+    public LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean() {
+        LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
         log.info("this is gym page");
         bean.setPackagesToScan("com.xworkz.gym.entity");
         bean.setDataSource(dataSource());
@@ -34,8 +34,8 @@ public class GymConfiguration {
     }
 
     @Bean
-    public DataSource dataSource(){
-        DriverManagerDataSource dataSource =new DriverManagerDataSource();
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/gym_project");
         dataSource.setUsername("root");
@@ -44,7 +44,7 @@ public class GymConfiguration {
     }
 
     @Bean
-    public ViewResolver viewResolver(){
+    public ViewResolver viewResolver() {
         return new InternalResourceViewResolver("/", ".jsp");
     }
 }

@@ -14,16 +14,16 @@ public class EnquiryController {
     @Autowired
     public GymService gymService;
 
-    EnquiryController(){
+    EnquiryController() {
         System.out.println("No-arg const in EnquiryController");
     }
 
     @PostMapping("/enquiry")
-    public String enquired(EnquiryDTO enquiryDTO){
+    public String enquired(EnquiryDTO enquiryDTO) {
         boolean display = gymService.enquirySave(enquiryDTO);
-        if(display){
+        if (display) {
             return "Intermediate";
-        }else{
+        } else {
             return "Enquiry";
         }
     }

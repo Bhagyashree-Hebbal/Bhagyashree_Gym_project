@@ -2,22 +2,25 @@ package com.xworkz.gym.service;
 
 import com.xworkz.gym.constants.StatusEnum;
 import com.xworkz.gym.dto.EnquiryDTO;
+import com.xworkz.gym.dto.FollowUpDTO;
+import com.xworkz.gym.dto.FollowUpViewDTO;
 import com.xworkz.gym.dto.RegistrationDTO;
 import com.xworkz.gym.entity.EnquiryEntity;
+import com.xworkz.gym.entity.FollowUpViewEntity;
 import com.xworkz.gym.entity.RegistrationEntity;
 import com.xworkz.gym.repository.GymRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.List;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
 
 @Service
-public class GymServiceImpl implements GymService{
+@Slf4j
+public class GymServiceImpl implements GymService {
 
     @Autowired
     public GymRepository gymRepository;
@@ -97,8 +100,6 @@ public class GymServiceImpl implements GymService{
     }
 
 
-
-
     @Override
     public boolean enquirySave(EnquiryDTO enquiryDTO) {
         System.out.println("running enquirySave in GymServiceImpl");
@@ -111,9 +112,9 @@ public class GymServiceImpl implements GymService{
         enquiryEntity.setStatus(String.valueOf(StatusEnum.Enquired));
 
         boolean enquirySaved = gymRepository.enquirySave(enquiryEntity);
-        if(enquirySaved){
+        if (enquirySaved) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -142,11 +143,42 @@ public class GymServiceImpl implements GymService{
 
 
     @Override
-    public boolean updateStatusAndReason(String name,String status, String reason) {
-        boolean saved=gymRepository.updateStatusAndReason(name,status,reason);
-        if(saved)
-            return  true;
+    public boolean updateStatusAndReason(String name, String status, String reason) {
+        System.out.println("------upstAnRe----in sevuce---");
+        boolean saved = gymRepository.updateStatusAndReason(name, status, reason);
+        EnquiryEntity enquiryEntity =gymRepository.getEnquiryEntityByName(name);
+        FollowUpViewEntity followUpViewEntity = new FollowUpViewEntity();
+        followUpViewEntity.setName(enquiryEntity.getName());
+        followUpViewEntity.setArea(enquiryEntity.getArea());
+        followUpViewEntity.setPhoneNo(enquiryEntity.getPhoneNo());
+        followUpViewEntity.setReasons(enquiryEntity.getReasons());
+        followUpViewEntity.setEnquiryEntity(enquiryEntity);
+
+        gymRepository.saveView(followUpViewEntity);
+        if (saved)
+            return true;
         return false;
+    }
+
+    @Override
+    public boolean saveView(FollowUpViewDTO followUpViewDTO) {
+        log.info("saveview in serviceImpl");
+        FollowUpViewEntity entity = new FollowUpViewEntity();
+        boolean savedView = gymRepository.saveView(entity);
+        if (savedView) {
+            System.out.println("saved view page in savice");
+            return true;
+        }else{
+            System.out.println("Not saveView");
+            return false;
+        }
+    }
+
+
+    @Override
+    public List<FollowUpViewEntity> getAllFollowup(int enquiryId) {
+        System.out.println("viewDtails in service============"+gymRepository.getAll(enquiryId));
+        return gymRepository.getAll(enquiryId);
     }
 
     @Override
@@ -237,9 +269,9 @@ public class GymServiceImpl implements GymService{
     }
 
     @Override
-    public boolean updateRegistration(RegistrationDTO registrationDTO,String name, long phoneNo) {
+    public boolean updateRegistration(RegistrationDTO registrationDTO, String name, long phoneNo) {
         // Query the database for an existing record using name and phone number
-        RegistrationEntity entity = gymRepository.updateRegistration (name, phoneNo);
+        RegistrationEntity entity = gymRepository.updateRegistration(name, phoneNo);
 
         if (entity != null) {
             // Update the existing entity with new values from the DTO
@@ -252,9 +284,28 @@ public class GymServiceImpl implements GymService{
             gymRepository.registrationSave(entity);
             return true; // Successfully updated
         }
-        
+
         return false; // No matching record found, no update performed
     }
+
+//    @Override
+//    public List<RegistrationDTO> searchByNameAndPhoneNo(String name, Long phoneNo) {
+//        List<RegistrationEntity> entities = gymRepository.findByNameAndPhoneNo(name, phoneNo);
+//
+//        List<RegistrationDTO> dtos = new ArrayList<>();
+//        for (RegistrationEntity entity : entities) {
+//            RegistrationDTO dto = new RegistrationDTO();
+//            dto.setName(entity.getName());
+//            dto.setPhoneNo(entity.getPhoneNo());
+//            dto.setGymPackage(entity.getGymPackage());
+//            dto.setGymTrainer(entity.getGymTrainer());
+//            dto.setAmount(entity.getAmount());
+//            dto.setBalance(entity.getBalance());
+//            dtos.add(dto);
+//        }
+//        return dtos;
+//    }
+
 
 
 }

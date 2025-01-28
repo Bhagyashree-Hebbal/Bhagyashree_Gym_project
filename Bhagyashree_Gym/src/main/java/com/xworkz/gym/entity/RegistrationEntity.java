@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "registration_update_table")
 @RequiredArgsConstructor
 
-@NamedQuery(name = "countByRegiName" , query ="select count(*) from RegistrationEntity ae where ae.name = :SetName")
+@NamedQuery(name = "countByRegiName", query = "select count(*) from RegistrationEntity ae where ae.name = :SetName")
 @NamedQuery(name = "countByRegiEmail", query = "select count(*) from RegistrationEntity ae where ae.email = :SetEmail")
 @NamedQuery(name = "countByRegiPhoneNo", query = "select count(*) from RegistrationEntity ae where ae.phoneNo = :SetPhoneNo")
 @NamedQuery(name = "countByGymName", query = "select count(*) from RegistrationEntity ae where ae.gymName = :SetGymName")
@@ -18,7 +18,8 @@ import javax.persistence.*;
 public class RegistrationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "registration_id")
+    private int registrationId;
     private String name;
     private String email;
     private String password;

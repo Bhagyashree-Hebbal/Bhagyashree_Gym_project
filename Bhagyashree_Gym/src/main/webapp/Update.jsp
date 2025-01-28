@@ -147,31 +147,13 @@
         </div>
     </nav>
 
-
     <!-- Update Form -->
     <div class="update-form-container">
         <h2><i class="fas fa-edit"></i> Update Form</h2>
         <form action="update" method="post">
-           <div class="mb-3 form-group">
-                <label for="name" class="form-label"><i class="fas fa-user"></i> Name</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
-           </div>
-
-           <div class="mb-3 form-group">
-                <label for="phoneNo" class="form-label"><i class="fas fa-phone"></i> Phone No</label>
-                <input type="number" id="phoneNo" name="phoneNo" class="form-control" placeholder="Enter your phone number" required>
-            </div>
-
             <div class="mb-3 form-group">
                 <label for="gymPackage" class="form-label"><i class="fas fa-box"></i> Package</label>
-                <select class="form-control" id="gymPackage" name="gymPackage" required>
-                        <option value="" data-amount="0" style="color:black;">--select package--</option>
-                        <option value="Silver" style="color: black;" data-amount="30000">Silver - 30000</option>
-                        <option value="Premium" style="color: black;" data-amount="40000">Premium - 40000</option>
-                        <option value="Gold" style="color: black;" data-amount="50000">Gold - 50,000</option>
-                        <option value="Platinum" style="color: black;" data-amount="60000">Platinum - 60,000</option>
-                        <option value="Diamond" style="color: black;" data-amount="80000">Diamond - 80,000</option>
-                </select>
+                <input type="text" id="gymPackage" name="gymPackage" class="form-control" placeholder="Enter package name" required>
             </div>
 
             <div class="mb-3 form-group">
@@ -181,17 +163,12 @@
 
             <div class="mb-3 form-group">
                 <label for="amount" class="form-label"><i class="fas fa-dollar-sign"></i> Amount</label>
-                <input type="number" step="0.01" id="amount" name="amount" class="form-control" placeholder="Enter the amount" readonly required>
+                <input type="number" id="amount" name="amount" class="form-control" placeholder="Enter the amount" required>
             </div>
 
             <div class="mb-3 form-group">
-                    <label for="paidAmount" class="form-label"><i class="fas fa-dollar-sign"></i> Paid Amount</label>
-                    <input type="number" step="0.01" id="paidAmount" name="paidAmount" class="form-control"
-                        placeholder="Enter paid amount" required>
-            </div>
-            <div class="mb-3 form-group">
                 <label for="balance" class="form-label"><i class="fas fa-wallet"></i> Balance</label>
-                <input type="number"  id="balance" name="balance" class="form-control" placeholder="Enter the balance amount" required>
+                <input type="number" id="balance" name="balance" class="form-control" placeholder="Enter the balance amount" required>
             </div>
 
             <button type="submit" class="btn btn-submit"><i class="fas fa-save"></i> Update</button>

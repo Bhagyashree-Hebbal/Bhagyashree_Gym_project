@@ -251,8 +251,8 @@
                         </td>
                         <td>
                             <input type="hidden" name="name" value="${enquiry.name}" />
-                            <button type="submit" class="btn" <c:if test="${enquiry.status == 'Registration'}">disabled</c:if>><i class="fas fa-edit"></i> Update</button>
-                            <a href="ViewPage.jsp" class="btn"><i class="fas fa-eye"></i> View </a>
+                            <button type="submit" class="btn"><i class="fas fa-edit"></i> Update</button>
+                            <a href="view?enquiryId=${enquiry.enquiryId}" class="btn"><i class="fas fa-eye"></i> View </a>
                         </td>
                     </form>
                 </tr>

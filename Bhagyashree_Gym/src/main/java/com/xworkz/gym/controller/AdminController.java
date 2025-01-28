@@ -32,8 +32,8 @@ public class AdminController {
 //    }
 
     @GetMapping("/admin")
-    public String adminLogin(String email,String password, Model model) {
-        boolean read = gymService.getValue(email,password);
+    public String adminLogin(String email, String password, Model model) {
+        boolean read = gymService.getValue(email, password);
         if (read) {
             model.addAttribute("msg", "AdminSuccess");
             return "AdminSuccess";
