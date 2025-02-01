@@ -10,6 +10,10 @@ public interface GymRepository {
     //boolean save(AdminEntity adminEntity);
     boolean getValue(String email, String password);
 
+    //Admin Ajax
+    Long getCountByAdminEmail(String email);
+    Long getCountByAdminPassword(String password);
+
     //Enquiry Ajax
     public Long getCountByName(String name);
 
@@ -51,4 +55,17 @@ public interface GymRepository {
     RegistrationEntity updateRegistration(String name, long phoneNo);
 
     //public List<RegistrationEntity> findByNameAndPhoneNo(String name, Long phoneNo);
+
+
+    //USER login
+    //RegistrationEntity userSave(String email,String password);
+    RegistrationEntity userSave(String email);
+    void updateCount(String email,int count);
+    boolean resetCount(String email,int count);
+    String updateLockedAccountTimeByEmail(String email);
+    //reset password
+    String updatePasswordByName(String newPassword,String name);
+    //forget password
+    String resetPasswordByEmail(String email, String newPassword);
 }
+

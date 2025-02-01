@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -73,6 +74,41 @@ public class GymRepositoryImpl implements GymRepository {
         }
         //return true;
     }
+
+    @Override
+    public Long getCountByAdminEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+        Long count = 0L;
+        try {
+            count = (Long) em.createNamedQuery("countByAdminEmail").setParameter("SetEmail", email).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return count;
+    }
+
+    //Admin Ajax
+    @Override
+    public Long getCountByAdminPassword(String password) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+
+        Long count = (Long) em.createNamedQuery("countByAdminPassword").setParameter("SetPassword",password).getSingleResult();
+        try {
+            et.begin();
+            et.commit();
+        } catch (Exception e){
+            if(et.isActive()){
+                et.rollback();
+            }
+        }finally {
+            em.close();
+        }
+        return count;
+    }
+
 
     @Override
     public Long getCountByName(String name) {
@@ -419,6 +455,7 @@ public class GymRepositoryImpl implements GymRepository {
         return result;
     }
 
+
 //    @Override
 //    public List<RegistrationEntity> findByNameAndPhoneNo(String name, Long phoneNo) {
 //        EntityManager em = emf.createEntityManager();
@@ -441,5 +478,195 @@ public class GymRepositoryImpl implements GymRepository {
 
 
 
+    //USER login
+//    @Override
+//    public RegistrationEntity userSave(String email,String password) {
+//        System.out.println("running userSave in GymRepositoryImpl"+email);
+//        EntityManager em = emf.createEntityManager();
+//        EntityTransaction et = em.getTransaction();
+//        try {
+//            et.begin();
+//            Object result = em.createNamedQuery("getEmailPassword").setParameter("emailBy",email).setParameter("passwordBy",password).getSingleResult();
+////            log.info("In repo--"+result);
+//            System.out.println("in repository the result from datbase.....:"+result);
+//            et.commit();
+//            return (RegistrationEntity) result;
+//        }catch (Exception e){
+//            if (et.isActive()){
+//                et.rollback();
+//            }
+//            System.out.println("getting exception....from repo.."+e.getMessage());
+//            return null;
+//        }finally {
+//            em.close();
+//        }
+//    }
+
+
+    //USER login
+    @Override
+    public RegistrationEntity userSave(String email) {
+        System.out.println("running userSave in GymRepositoryImpl"+email);
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        RegistrationEntity entity = null;
+        try {
+            Query query = em.createNamedQuery("getAllByEmail");
+            query.setParameter("byEmail", email);
+
+            entity = (RegistrationEntity) query.getSingleResult();
+            System.out.println("Entity from repository " + entity.toString());
+
+        } catch (Exception e) {
+            e.getStackTrace();
+            return null;
+        } finally {
+            em.close();
+        }
+        return entity;
+
+    }
+
+    @Override
+    public void updateCount(String email, int count) {
+        int result = count + 1;
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        int value;
+        try {
+            et.begin();
+            value = em.createNamedQuery("updateCount").setParameter("setCount", result).setParameter("byEmail", email).executeUpdate();
+            et.commit();
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public boolean resetCount(String email, int count) {
+        int result = 0;
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        int value = 0;
+        try {
+            et.begin();
+            value = em.createNamedQuery("resetCount").setParameter("setCount", 0).setParameter("byEmail", email).executeUpdate();
+            et.commit();
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+        } finally {
+            em.close();
+        }
+        if (value > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String updateLockedAccountTimeByEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+
+        try{
+            et.begin();
+            Query query = em.createNamedQuery("accountLockedTimeByEmail");
+            query.setParameter("accountLockedTimeBy", LocalDateTime.now());
+            query.setParameter("emailBy",email);
+
+            int value = query.executeUpdate();
+            et.commit();
+
+            if(value > 0){
+                System.out.println("Account lock time is set to current time");
+            }else{
+                System.out.println("Failed to set account lock time");
+            }
+        }catch (Exception e){
+            if(et.isActive()){
+                et.rollback();
+            }
+        }finally {
+            em.close();
+        }
+        return "Account lock time is set";
+    }
+
+    @Override
+    public String updatePasswordByName(String newPassword,String name) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+
+        try {
+            et.begin();
+            System.out.println("name::" + name);
+            System.out.println("newPassword::" + newPassword);
+
+            // Assuming "updatePasswordByName" is a named query in the UserEntity class
+            Query query = em.createNamedQuery("updatePasswordByName");
+            query.setParameter("setNewPassword", newPassword);
+            query.setParameter("setCount", 0);
+            query.setParameter("nameBy", name);
+
+            int value = query.executeUpdate(); // Call executeUpdate on the Query object
+            et.commit();
+
+            if (value > 0) {
+                return "password updated successfully";
+            } else {
+                return "Password is not updated";
+            }
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return "password updated successfully";
+    }
+
+    //forget password
+    @Override
+    public String resetPasswordByEmail(String email, String newPassword) {
+        System.out.println("Entering repository resetPasswordByEmail");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+
+        try{
+            et.begin();
+
+            Query query = em.createNamedQuery("resetPasswordByEmail");
+            query.setParameter("setNewPassword",newPassword);
+            query.setParameter("emailBy",email);
+
+            int value = query.executeUpdate();
+            et.commit();
+
+            System.out.println("Rows affected:" +value);
+
+            if(value>0){
+                return "password updated successfully";
+            }else {
+                return "Password Updated";
+            }
+        }catch(Exception e){
+            if(et.isActive()){
+                et.rollback();
+            }
+        }finally{
+            em.close();
+        }
+        return "password updated successfully";
+    }
 }
 

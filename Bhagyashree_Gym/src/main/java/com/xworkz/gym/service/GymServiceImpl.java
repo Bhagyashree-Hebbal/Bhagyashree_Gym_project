@@ -1,10 +1,7 @@
 package com.xworkz.gym.service;
 
 import com.xworkz.gym.constants.StatusEnum;
-import com.xworkz.gym.dto.EnquiryDTO;
-import com.xworkz.gym.dto.FollowUpDTO;
-import com.xworkz.gym.dto.FollowUpViewDTO;
-import com.xworkz.gym.dto.RegistrationDTO;
+import com.xworkz.gym.dto.*;
 import com.xworkz.gym.entity.EnquiryEntity;
 import com.xworkz.gym.entity.FollowUpViewEntity;
 import com.xworkz.gym.entity.RegistrationEntity;
@@ -16,6 +13,8 @@ import org.springframework.stereotype.Service;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -48,6 +47,18 @@ public class GymServiceImpl implements GymService {
         return getNames;
     }
 
+    @Override
+    public Long getCountByAdminEmail(String email) {
+        return gymRepository.getCountByAdminEmail(email);
+    }
+
+    //Admin Ajax
+    @Override
+    public Long getCountByAdminPassword(String password) {
+        return gymRepository.getCountByAdminPassword(password);
+    }
+
+    //Enquiry Ajax
     @Override
     public Long getCountByName(String name) {
         Long count = gymRepository.getCountByName(name);
@@ -153,6 +164,7 @@ public class GymServiceImpl implements GymService {
         followUpViewEntity.setPhoneNo(enquiryEntity.getPhoneNo());
         followUpViewEntity.setReasons(enquiryEntity.getReasons());
         followUpViewEntity.setEnquiryEntity(enquiryEntity);
+        followUpViewEntity.setUpdatedDate(LocalDateTime.now());
 
         gymRepository.saveView(followUpViewEntity);
         if (saved)
@@ -197,7 +209,8 @@ public class GymServiceImpl implements GymService {
         registrationEntity.setInstallment(registrationDTO.getInstallment());
         registrationEntity.setPaidAmount(registrationDTO.getPaidAmount());
         registrationEntity.setBalance(registrationDTO.getBalance());
-
+        registrationEntity.setCount(-1);
+        //registrationEntity.setAccountLockedTime(LocalDateTime.now());
         // Generate and set a random password
         String randomPassword = generateRandomPassword();
         registrationEntity.setPassword(randomPassword);
@@ -307,5 +320,56 @@ public class GymServiceImpl implements GymService {
 //    }
 
 
+    //USER login
+    @Override
+    public RegistrationEntity userSave(String email, String password) {
+        System.out.println("running userSave in GymServiceImpl"+email+"........"+password);
+        RegistrationEntity registrationEntity=gymRepository.userSave(email);
+        System.out.println("====in serive====:"+registrationEntity);
+        if (registrationEntity != null) {
+            System.out.println(registrationEntity.toString());
+            if (password.equals(registrationEntity.getPassword()) && registrationEntity.getCount() == -1) {
+                System.out.println("matches");
+                return registrationEntity;
+            } else if (!(password.equals(registrationEntity.getPassword())) && (registrationEntity.getCount() >= 0 && registrationEntity.getCount() < 3)) {
 
+                gymRepository.updateCount(email, registrationEntity.getCount());
+                System.out.println("password entered is wrong");
+                return null;
+
+            } else if (!(password.equals(registrationEntity.getPassword())) && registrationEntity.getCount() == 3) {
+                System.out.println("locked");
+                if(registrationEntity.getAccountLockedTime()==null)
+                    gymRepository.updateLockedAccountTimeByEmail(email);
+                return null;
+            } else if (password.equals(registrationEntity.getPassword()) && (registrationEntity.getCount() < 3 && registrationEntity.getCount() > -1)) {
+                boolean reset = gymRepository.resetCount(email, registrationEntity.getCount());
+                if (reset)
+                    return registrationEntity;
+                else
+                    return null;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String updatePasswordByName(String name, String oldPassword, String newPassword, String confirmPassword) {
+
+        if (newPassword.equals(confirmPassword)) {
+            String msg = gymRepository.updatePasswordByName(newPassword, name);
+
+        }
+        return "password updated successfully";
+    }
+
+    @Override
+    public String resetPasswordByEmail(String email, String newPassword, String confirmPassword) {
+        System.out.println("reset password in service");
+        if(newPassword.equals(confirmPassword)){
+            gymRepository.userSave(email);
+            return gymRepository.resetPasswordByEmail(email, newPassword);
+        }
+        return "password updated successfully";
+    }
 }

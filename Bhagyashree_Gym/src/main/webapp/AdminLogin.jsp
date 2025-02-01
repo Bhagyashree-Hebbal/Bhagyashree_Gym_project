@@ -104,13 +104,15 @@
             <form action="admin" method="get">
                 <div class="mb-3 form-group icon-field">
                     <label for="email" class="form-label"><i class="fas fa-envelope"></i> Email</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your Email" required>
-
+                    <input type="email" id="email" name="email" class="form-control" onChange="onAdminEmailChange()" placeholder="Enter your Email" required>
+                    <span id="adminEmail" style="color: red;"></span>
                 </div>
+
 
                 <div class="mb-3 form-group icon-field">
                     <label for="password" class="form-label"><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter your Password" required>
+                    <input type="password" id="password" name="password" class="form-control" onChange="onAdminPasswordChange()" placeholder="Enter your Password" required >
+                     <span id="adminPassword" style="color:red;"></span>
                 </div>
 
                 <button type="submit" class="btn btn-success">Login</button>
@@ -123,6 +125,52 @@
         <a href="#">Privacy Policy <i class="fas fa-shield-alt"></i></a>
         <a href="#">Terms & Conditions <i class="fas fa-file-alt"></i></a>
     </div>
+
+    <script>
+                function onAdminEmailChange() {
+                       console.log('this is on place RegiEmailChange');
+                       var email = document.getElementById('email');
+                       var regiEmailValue = email.value;
+
+                       if (!regiEmailValue.includes('@gmail.com') && !regiEmailValue.includes('@yahoo.com') && !regiEmailValue.includes('@outlook.com') && !regiEmailValue.includes('@hotmail.com') &&
+                       !regiEmailValue.includes('.edu') && !regiEmailValue.includes('.org') && !regiEmailValue.includes('.info') && !regiEmailValue.includes('.net'))
+                             {
+                           document.getElementById("adminEmail").innerHTML = "Enter a valid email address.";
+                           return;
+                       }else {
+                           document.getElementById("adminEmail").innerHTML = "";
+                       }
+
+                       var xhttp = new XMLHttpRequest();
+                       xhttp.open("GET","http://localhost:8080/Bhagyashree_Gym/admin/email/" + regiEmailValue);
+                       xhttp.send();
+
+                       xhttp.onload = function(){
+                       document.getElementById("adminEmail").innerHTML = this.responseText;
+                       }
+                }
+
+                function onAdminPasswordChange() {
+                    console.log('this is on place password');
+                    var password = document.getElementById('password');
+                    var passwordValue = password.value;
+
+                    if (passwordValue.length < 8 || passwordValue == null || !passwordValue.match(/[A-Z]/) || !passwordValue.match(/[a-z]/) || !passwordValue.match(/[@$!%*?&]/)) {
+                        document.getElementById("adminPassword").innerHTML = "Enter a valid password with at least 8 characters, one uppercase letter, and one special character.";
+                    } else {
+                        document.getElementById("adminPassword").innerHTML = "";
+                    }
+
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", "http://localhost:8080/Bhagyashree_Gym/admin/password/" + passwordValue);
+                    xhttp.send();
+
+                    xhttp.onload = function () {
+                        document.getElementById("adminPassword").innerHTML = this.responseText;
+                    }
+                }
+
+            </script>
 
     <!-- Bootstrap JS & Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

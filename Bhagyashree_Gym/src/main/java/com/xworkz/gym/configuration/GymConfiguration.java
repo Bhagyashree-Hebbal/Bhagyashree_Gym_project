@@ -48,3 +48,4 @@ public class GymConfiguration {
         return new InternalResourceViewResolver("/", ".jsp");
     }
 }
+

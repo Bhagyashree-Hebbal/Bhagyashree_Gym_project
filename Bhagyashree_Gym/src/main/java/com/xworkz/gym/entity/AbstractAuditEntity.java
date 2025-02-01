@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 @Data
 @MappedSuperclass
 public class AbstractAuditEntity implements Serializable {
-   // private LocalDateTime createdDate = LocalDateTime.now();
+    //private String createdBy;
+    //private LocalDateTime createdDate = LocalDateTime.now();
+    //private String updatedBy;
     @Column(name = "updated_date")
     private LocalDateTime updatedDate ;
 }

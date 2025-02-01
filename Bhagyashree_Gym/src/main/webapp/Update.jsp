@@ -152,8 +152,25 @@
         <h2><i class="fas fa-edit"></i> Update Form</h2>
         <form action="update" method="post">
             <div class="mb-3 form-group">
+                <label for="name" class="form-label"><i class="fas fa-user"></i> Name</label>
+                <input type="text" id="name" name="name" class="form-control" onChange="onRegiNameChange()" placeholder="Enter your name" required>
+                <span id="regiName" style="color: red;"></span>
+            </div>
+            <div class="mb-3 form-group">
+                <label for="phoneNo" class="form-label"><i class="fas fa-phone"></i> Phone No</label>
+                <input type="number" id="phoneNo" name="phoneNo" class="form-control" onChange="onRegiPhoneNoChange()" placeholder="Enter your phone number" required>
+                <span id="regiPhoneNo" style="color: red;"></span>
+            </div>
+            <div class="mb-3 form-group">
                 <label for="gymPackage" class="form-label"><i class="fas fa-box"></i> Package</label>
-                <input type="text" id="gymPackage" name="gymPackage" class="form-control" placeholder="Enter package name" required>
+                <select class="form-control" id="gymPackage" name="gymPackage" required>
+                      <option value="" data-amount="0" style="color:black;">--select package--</option>
+                      <option value="Silver" style="color: black;" data-amount="30000">Silver - 30000</option>
+                      <option value="Premium" style="color: black;" data-amount="40000">Premium - 40000</option>
+                      <option value="Gold" style="color: black;" data-amount="50000">Gold - 50,000</option>
+                      <option value="Platinum" style="color: black;" data-amount="60000">Platinum - 60,000</option>
+                      <option value="Diamond" style="color: black;" data-amount="80000">Diamond - 80,000</option>
+                </select>
             </div>
 
             <div class="mb-3 form-group">
@@ -164,6 +181,17 @@
             <div class="mb-3 form-group">
                 <label for="amount" class="form-label"><i class="fas fa-dollar-sign"></i> Amount</label>
                 <input type="number" id="amount" name="amount" class="form-control" placeholder="Enter the amount" required>
+            </div>
+            <div class="mb-3 form-group">
+                <label for="installment" class="form-label"><i class="fas fa-coins"></i> Installment</label>
+                <select class="form-control" id="installment" name="installment" required>
+                       <option>--select package--</option>
+                       <option>1</option>
+                       <option>2</option>
+                       <option>3</option>
+                       <option>4</option>
+                       <option>5</option>
+                </select>
             </div>
 
             <div class="mb-3 form-group">

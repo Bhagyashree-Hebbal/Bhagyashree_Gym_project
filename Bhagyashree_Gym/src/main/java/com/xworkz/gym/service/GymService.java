@@ -3,12 +3,17 @@ package com.xworkz.gym.service;
 import com.xworkz.gym.dto.*;
 import com.xworkz.gym.entity.EnquiryEntity;
 import com.xworkz.gym.entity.FollowUpViewEntity;
+import com.xworkz.gym.entity.RegistrationEntity;
 
 import java.util.List;
 
 public interface GymService {
     //boolean save(AdminDTO adminDTO);
     boolean getValue(String email, String password);
+
+    //Admin Ajax
+    Long getCountByAdminEmail(String email);
+    Long getCountByAdminPassword(String password);
 
     //Enquiry Ajax
     public Long getCountByName(String name);
@@ -54,4 +59,11 @@ public interface GymService {
 
     //public List<RegistrationDTO> searchByNameAndPhoneNo(String name, Long phoneNo);
 
+
+    //USER login
+    RegistrationEntity userSave(String email, String password);
+    //reset password
+    String updatePasswordByName(String name, String oldPassword, String newPassword,String confirmPassword);
+    //forget password
+    String resetPasswordByEmail(String email,String newPassword,String confirmPassword);
 }
