@@ -188,7 +188,7 @@
                         <a class="nav-link" href="Registration.jsp"><i class="fas fa-user-plus"></i> Registration</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Update.jsp"><i class="fas fa-edit"></i> Update</a>
+                        <a class="nav-link" href="RegistrationUpdate.jsp"><i class="fas fa-edit"></i> Update</a>
                     </li>
                 </ul>
             </div>

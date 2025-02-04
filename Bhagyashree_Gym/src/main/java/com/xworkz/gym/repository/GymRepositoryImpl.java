@@ -1,6 +1,7 @@
 package com.xworkz.gym.repository;
 
 import com.xworkz.gym.controller.FollowUpController;
+import com.xworkz.gym.dto.RegistrationDTO;
 import com.xworkz.gym.entity.EnquiryEntity;
 import com.xworkz.gym.entity.FollowUpViewEntity;
 import com.xworkz.gym.entity.RegistrationEntity;
@@ -456,25 +457,6 @@ public class GymRepositoryImpl implements GymRepository {
     }
 
 
-//    @Override
-//    public List<RegistrationEntity> findByNameAndPhoneNo(String name, Long phoneNo) {
-//        EntityManager em = emf.createEntityManager();
-//        String queryStr = "SELECT e FROM RegistrationEntity e WHERE e.name = :name OR e.phoneNo = :phoneNo";
-//        List<RegistrationEntity> results = new ArrayList<>();
-//
-//        try {
-//            Query query = em.createQuery(queryStr);
-//            query.setParameter("name", name);
-//            query.setParameter("phoneNo", phoneNo);
-//            results = query.getResultList();
-//        } catch (Exception e) {
-//            log.error("Error in finding records: {}", e.getMessage());
-//        } finally {
-//            em.close();
-//        }
-//
-//        return results;
-//    }
 
 
 
@@ -667,6 +649,54 @@ public class GymRepositoryImpl implements GymRepository {
             em.close();
         }
         return "password updated successfully";
+    }
+
+    //Update Profile
+    @Override
+    public List<RegistrationEntity> getAllRegisteredUserDetailsById(int registrationId) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+
+        List<RegistrationEntity> list=em.createNamedQuery("getAllRegDetailsById",RegistrationEntity.class).
+                setParameter("getRegistrationId",registrationId).getResultList();
+        try {
+            et.begin();
+            em.merge(list);
+            et.commit();
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+        } finally {
+            em.close();
+        }
+        System.out.println(list);
+        return list;
+    }
+
+    @Override
+    public RegistrationDTO updateUserProfile(String name,RegistrationDTO registrationDTO, String filePath) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        int value=0;
+        try {
+            et.begin();
+            value=em.createNamedQuery("updateUserProfileByName")
+                    .setParameter("getAge",registrationDTO.getAge())
+                    .setParameter("getHeight",registrationDTO.getHeight())
+                    .setParameter("getWeight",registrationDTO.getWeight())
+                    .setParameter("getFilePath",filePath)
+                    .setParameter("getName",name).executeUpdate();
+
+            et.commit();
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+        } finally {
+            em.close();
+        }
+        return null;
     }
 }
 

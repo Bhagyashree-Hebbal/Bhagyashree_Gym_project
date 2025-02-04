@@ -53,11 +53,11 @@ public interface GymService {
 
     boolean registrationSave(RegistrationDTO registrationDTO);
 
-    //password to email
+    //password to email and Registration
     boolean saveEmail(String email, String password);
     boolean updateRegistration(RegistrationDTO registrationDTO, String name, long phoneNo);
 
-    //public List<RegistrationDTO> searchByNameAndPhoneNo(String name, Long phoneNo);
+
 
 
     //USER login
@@ -66,4 +66,9 @@ public interface GymService {
     String updatePasswordByName(String name, String oldPassword, String newPassword,String confirmPassword);
     //forget password
     String resetPasswordByEmail(String email,String newPassword,String confirmPassword);
+
+    //Update Profile
+    List<RegistrationEntity> getAllRegisteredUserDetailsById(int registrationId);
+
+    RegistrationDTO updateUserProfile(String name,RegistrationDTO registrationDTO, String filePath);
 }

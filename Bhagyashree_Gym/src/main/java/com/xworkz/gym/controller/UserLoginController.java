@@ -1,16 +1,30 @@
 package com.xworkz.gym.controller;
 
-import com.xworkz.gym.dto.UserLoginDTO;
+
+import com.xworkz.gym.dto.RegistrationDTO;
+import com.xworkz.gym.entity.FollowUpViewEntity;
 import com.xworkz.gym.entity.RegistrationEntity;
+import com.xworkz.gym.repository.GymRepository;
 import com.xworkz.gym.service.GymService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/")
@@ -18,6 +32,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserLoginController {
     @Autowired
     public GymService gymService;
+
+//    @Autowired
+//    public GymRepository gymRepository;
 
     UserLoginController() {
         log.info("No-arg const in UserLoginController");
@@ -28,10 +45,19 @@ public class UserLoginController {
         return "UserLogin";
     }
 
-    @PostMapping("/user")
-    public String userLogin(@RequestParam String email, @RequestParam String password, Model model) {
+//    @GetMapping("/user")
+//    public String userLogins(@RequestParam String email, @RequestParam String password, Model model) {
+//        System.out.println("userLogin in controller=============");
+//
+//        model.addAttribute("register",gymRepository.userSave(email));
+//        return "UserProfile";
+//    }
+
+        @PostMapping("/user")
+        public String userLogin(@RequestParam String email, @RequestParam String password, Model model) {
         System.out.println("userLogin in controller=============");
         RegistrationEntity display = gymService.userSave(email, password);
+        System.out.println("login user data :"+display);
         int logInCount;
         if (display != null) {
             logInCount = display.getCount();
@@ -45,11 +71,14 @@ public class UserLoginController {
                 model.addAttribute("msg", "UserSuccess");
                 return "ResetPassword";
             } else {
-                System.out.println("Redirecting to Success page.");
+                System.out.println("Redirecting to UserProfile page.");
+
                 String name = display.getName();
                 model.addAttribute("userName", name);
-                //model.addAttribute("filePath",userEntity.getFilePath());
-                return "UserSuccess";
+
+                model.addAttribute("register",display);
+//                model.addAttribute("filePath",display.getFilePath());
+                return "UserProfile";
             }
 
         } else {
@@ -93,4 +122,56 @@ public class UserLoginController {
             return "ForgetPassword";
         }
     }
+
+    @GetMapping("/update")
+    public String onUpdateProfile( Model model)
+    {
+        System.out.println("=============================update action+++========");
+        RegistrationEntity entity1=new RegistrationEntity();
+        int registrationId=entity1.getRegistrationId();
+        RegistrationEntity entity= (RegistrationEntity) gymService.getAllRegisteredUserDetailsById(registrationId);
+        model.addAttribute("register",entity);
+        model.addAttribute("filePath",entity.getFilePath());
+        return "UpdateUserProfile";
+    }
+
+    @GetMapping("/download")
+    public void display(HttpServletResponse response,@RequestParam String filePath) throws  Exception{
+        System.out.println("this is image"+filePath);
+        response.setContentType("Image/jpg");
+        File file = new File("C:\\ProfileImagePath\\" + filePath);
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+        ServletOutputStream outputStream = response.getOutputStream();
+        IOUtils.copy(inputStream, outputStream);
+        response.flushBuffer();
+
+    }
+
+    @PostMapping("/updateUserProfile")
+    public String onUpdating(@RequestParam String name, RegistrationDTO registrationDTO, @RequestParam("picture") MultipartFile multipartFile, Model model) throws IOException {
+        System.out.println(name);
+
+        if (multipartFile.isEmpty()) {
+            // Add the name to the model to pass it to the Success page
+            RegistrationDTO dto = gymService.updateUserProfile(name, registrationDTO,null);
+             model.addAttribute("register", name);
+                return "UserSuccess";
+
+        }else{
+            System.out.println("multipartFile="+multipartFile);
+            System.out.println("multipartFile OriginalFileName=="+multipartFile.getOriginalFilename());
+            System.out.println("multipartFile=="+multipartFile.getContentType());
+
+            byte[] bytes = multipartFile.getBytes();
+            Path path = Paths.get("C:\\ProfileImagePath\\" + name + System.currentTimeMillis() + ".jpg");
+            Files.write(path, bytes);
+            String filePath = path.getFileName().toString();
+            System.err.println("filePath=====" + filePath);
+
+            RegistrationDTO dto = gymService.updateUserProfile(name, registrationDTO,filePath);
+                return "UpdateUserProfile";
+        }
+        //return "UpdateUserProfile";
+    }
+
 }

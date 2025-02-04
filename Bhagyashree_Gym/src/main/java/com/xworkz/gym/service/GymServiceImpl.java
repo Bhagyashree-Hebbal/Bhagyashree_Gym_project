@@ -7,12 +7,17 @@ import com.xworkz.gym.entity.FollowUpViewEntity;
 import com.xworkz.gym.entity.RegistrationEntity;
 import com.xworkz.gym.repository.GymRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -199,6 +204,7 @@ public class GymServiceImpl implements GymService {
         RegistrationEntity registrationEntity = new RegistrationEntity();
         registrationEntity.setName(registrationDTO.getName());
         registrationEntity.setEmail(registrationDTO.getEmail());
+        registrationEntity.setAge(registrationDTO.getAge());
         //registrationEntity.setPassword(registrationDTO.getPassword());
         registrationEntity.setPhoneNo(registrationDTO.getPhoneNo());
         registrationEntity.setGymName(registrationDTO.getGymName());
@@ -301,30 +307,13 @@ public class GymServiceImpl implements GymService {
         return false; // No matching record found, no update performed
     }
 
-//    @Override
-//    public List<RegistrationDTO> searchByNameAndPhoneNo(String name, Long phoneNo) {
-//        List<RegistrationEntity> entities = gymRepository.findByNameAndPhoneNo(name, phoneNo);
-//
-//        List<RegistrationDTO> dtos = new ArrayList<>();
-//        for (RegistrationEntity entity : entities) {
-//            RegistrationDTO dto = new RegistrationDTO();
-//            dto.setName(entity.getName());
-//            dto.setPhoneNo(entity.getPhoneNo());
-//            dto.setGymPackage(entity.getGymPackage());
-//            dto.setGymTrainer(entity.getGymTrainer());
-//            dto.setAmount(entity.getAmount());
-//            dto.setBalance(entity.getBalance());
-//            dtos.add(dto);
-//        }
-//        return dtos;
-//    }
-
-
     //USER login
     @Override
     public RegistrationEntity userSave(String email, String password) {
         System.out.println("running userSave in GymServiceImpl"+email+"........"+password);
         RegistrationEntity registrationEntity=gymRepository.userSave(email);
+        //RegistrationDTO dto=new RegistrationDTO();
+        //BeanUtils.copyProperties(registrationEntity,dto);
         System.out.println("====in serive====:"+registrationEntity);
         if (registrationEntity != null) {
             System.out.println(registrationEntity.toString());
@@ -372,4 +361,17 @@ public class GymServiceImpl implements GymService {
         }
         return "password updated successfully";
     }
+
+    //Update Profile
+    @Override
+    public List<RegistrationEntity> getAllRegisteredUserDetailsById(int registrationId) {
+
+        return gymRepository.getAllRegisteredUserDetailsById(registrationId);
+    }
+
+    @Override
+    public RegistrationDTO updateUserProfile(String name,RegistrationDTO registrationDTO, String filePath) {
+        return gymRepository.updateUserProfile(name,registrationDTO,filePath);
+    }
+
 }

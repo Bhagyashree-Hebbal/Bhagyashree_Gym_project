@@ -1,5 +1,6 @@
 package com.xworkz.gym.repository;
 
+import com.xworkz.gym.dto.RegistrationDTO;
 import com.xworkz.gym.entity.EnquiryEntity;
 import com.xworkz.gym.entity.FollowUpViewEntity;
 import com.xworkz.gym.entity.RegistrationEntity;
@@ -50,11 +51,11 @@ public interface GymRepository {
     boolean saveView(FollowUpViewEntity followUpViewEntity);
     List<FollowUpViewEntity> getAll(int enquiryId);
 
+    //registration
     boolean registrationSave(RegistrationEntity registrationEntity);
 
     RegistrationEntity updateRegistration(String name, long phoneNo);
 
-    //public List<RegistrationEntity> findByNameAndPhoneNo(String name, Long phoneNo);
 
 
     //USER login
@@ -67,5 +68,10 @@ public interface GymRepository {
     String updatePasswordByName(String newPassword,String name);
     //forget password
     String resetPasswordByEmail(String email, String newPassword);
+
+    //Update Profile
+    List<RegistrationEntity> getAllRegisteredUserDetailsById(int registrationId);
+
+    RegistrationDTO updateUserProfile(String name,RegistrationDTO registrationDTO, String filePath);
 }
 

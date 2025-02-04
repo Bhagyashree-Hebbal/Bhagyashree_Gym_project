@@ -22,11 +22,15 @@ import java.time.LocalDateTime;
 @NamedQuery(name = "getAllByEmail", query="select re from RegistrationEntity re  where re.email = :byEmail")
 @NamedQuery(name = "updateCount",query="update RegistrationEntity re set re.count = :setCount where re.email = :byEmail")
 @NamedQuery(name = "resetCount",query="update RegistrationEntity re set re.count = :setCount where re.email = :byEmail")
-//@NamedQuery(name = "getByNamePassword" , query = "select re from RegistrationEntity re where re.name = :setName and re.password = :setPassword")
+
 //count
 @NamedQuery(name = "updatePasswordByName",query = "update RegistrationEntity re set re.password = :setNewPassword , re.count = :setCount where re.name = :nameBy")
 //forget password
 @NamedQuery(name = "resetPasswordByEmail", query = "update RegistrationEntity re set re.password = :setNewPassword where re.email = :emailBy")
+//Update Profile
+@NamedQuery(name = "getAllRegDetailsById",query = "select re from RegistrationEntity re where re.registrationId=:getRegistrationId")
+@NamedQuery(name = "updateUserProfileByName", query = "UPDATE RegistrationEntity re SET re.age=:getAge,re.height=:getHeight,re.weight=:getWeight,re.filePath=:getFilePath where re.name=:getName")
+
 public class RegistrationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +38,7 @@ public class RegistrationEntity {
     private int registrationId;
     private String name;
     private String email;
+    private int age;
     private String password;
     @Column(name = "phone_no")
     private long phoneNo;
@@ -52,4 +57,8 @@ public class RegistrationEntity {
     private int count;
     @Column(name = "account_locked_time")
     private LocalDateTime accountLockedTime;
+    @Column(name = "file_path")
+    private String filePath;
+    private int height;
+    private int weight;
 }

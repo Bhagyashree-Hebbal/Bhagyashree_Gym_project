@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -18,6 +19,7 @@ import javax.sql.DataSource;
 @EnableWebMvc
 @Slf4j
 public class GymConfiguration {
+    //private int sizeOfImg = 10 *1024 *1024;
 
     GymConfiguration() {
         System.out.println("No-arg Const GymConfiguration");
@@ -47,5 +49,13 @@ public class GymConfiguration {
     public ViewResolver viewResolver() {
         return new InternalResourceViewResolver("/", ".jsp");
     }
+
+    @Bean(name="multipartResolver")
+    public CommonsMultipartResolver commonsMultipartResolver(){
+        CommonsMultipartResolver commonsMultipartResolver=new CommonsMultipartResolver();
+        return commonsMultipartResolver;
+    }
+
+
 }
 

@@ -9,6 +9,7 @@ public class RegistrationDTO {
     private int id;
     private String name;
     private String email;
+    private int age;
     //private String password;
     private long phoneNo;
     private String gymName;
@@ -19,4 +20,7 @@ public class RegistrationDTO {
     private int installment;
     private int paidAmount;
     private double balance;
+    private int height;
+    private int weight;
+
 }

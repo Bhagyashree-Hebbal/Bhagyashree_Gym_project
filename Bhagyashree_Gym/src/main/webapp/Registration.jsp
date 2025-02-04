@@ -119,7 +119,7 @@
                         <a class="nav-link active" href="Registration.jsp"><i class="fas fa-user-plus"></i> Registration</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Update.jsp"><i class="fas fa-edit"></i> Update</a>
+                        <a class="nav-link" href="RegistrationUpdate.jsp"><i class="fas fa-edit"></i> Update</a>
                     </li>
                 </ul>
             </div>
@@ -142,7 +142,11 @@
                     <input type="email" id="email" name="email" class="form-control" onChange="onRegiEmailChange()" placeholder="Enter your email" required>
                     <span id="regiEmail" style="color: red;"></span>
                 </div>
-
+                <div class="mb-3">
+                    <label for="age" class="form-label"><i class="fas fa-envelope"></i> Age</label>
+                    <input type="age" id="age" name="age" class="form-control" onChange="onRegiAgeChange()" placeholder="Enter your age" required>
+                    <span id="regiAge" style="color: red;"></span>
+                </div>
 
 
                 <div class="mb-3">
