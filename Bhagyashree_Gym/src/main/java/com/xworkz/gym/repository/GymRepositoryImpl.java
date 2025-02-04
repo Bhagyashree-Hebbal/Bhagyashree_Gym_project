@@ -2,9 +2,7 @@ package com.xworkz.gym.repository;
 
 import com.xworkz.gym.controller.FollowUpController;
 import com.xworkz.gym.dto.RegistrationDTO;
-import com.xworkz.gym.entity.EnquiryEntity;
-import com.xworkz.gym.entity.FollowUpViewEntity;
-import com.xworkz.gym.entity.RegistrationEntity;
+import com.xworkz.gym.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -693,6 +691,95 @@ public class GymRepositoryImpl implements GymRepository {
             if (et.isActive()) {
                 et.rollback();
             }
+        } finally {
+            em.close();
+        }
+        return null;
+    }
+
+    //Slots and Trainers Name
+    @Override
+    public boolean saveSlots(SlotTimingsEntity slotTimings) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        try {
+            et.begin();
+            em.persist(slotTimings);
+            et.commit();
+            return true;
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<SlotTimingsEntity> findAllSlots() {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+
+        try {
+            et.begin();
+            Query query = em.createNamedQuery("getSlotList");
+            List<SlotTimingsEntity> result = query.getResultList();
+            et.commit();
+            return result;
+
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean saveTrainerDetails(TrainerInfoEntity entity) {
+
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+        try {
+            et.begin();
+            em.persist(entity);
+            et.commit();
+            return true;
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            em.close();
+        }
+    }
+
+
+
+    @Override
+    public List<TrainerInfoEntity> findAllTrainerList() {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction et = em.getTransaction();
+
+        try {
+            et.begin();
+            Query query = em.createNamedQuery("GetTrainerInfoList");
+            List<TrainerInfoEntity> result = query.getResultList();
+            et.commit();
+            return result;
+        } catch (Exception e) {
+            if (et.isActive()) {
+                et.rollback();
+            }
+            e.printStackTrace();
         } finally {
             em.close();
         }

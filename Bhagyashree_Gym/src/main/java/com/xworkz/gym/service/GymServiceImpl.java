@@ -2,9 +2,7 @@ package com.xworkz.gym.service;
 
 import com.xworkz.gym.constants.StatusEnum;
 import com.xworkz.gym.dto.*;
-import com.xworkz.gym.entity.EnquiryEntity;
-import com.xworkz.gym.entity.FollowUpViewEntity;
-import com.xworkz.gym.entity.RegistrationEntity;
+import com.xworkz.gym.entity.*;
 import com.xworkz.gym.repository.GymRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -372,6 +370,37 @@ public class GymServiceImpl implements GymService {
     @Override
     public RegistrationDTO updateUserProfile(String name,RegistrationDTO registrationDTO, String filePath) {
         return gymRepository.updateUserProfile(name,registrationDTO,filePath);
+    }
+
+    //Slots and Trainers name
+    @Override
+    public boolean saveSlots(String startTimings, String endTimings, String duration) {
+        SlotTimingsEntity entity = new SlotTimingsEntity();
+        entity.setStartTimings(startTimings);
+        entity.setEndTimings(endTimings);
+        entity.setDuration(duration);
+        return gymRepository.saveSlots(entity);
+    }
+
+    @Override
+    public List<SlotTimingsEntity> getAllSlots() {
+        return gymRepository.findAllSlots();
+    }
+
+    @Override
+    public boolean saveTrainerDetails(String name, long phoneNo, String slotTimings) {
+
+        TrainerInfoEntity entity = new TrainerInfoEntity();
+        entity.setName(name);
+        entity.setPhoneNo(phoneNo);
+        entity.setSlotTimings(slotTimings);
+        return gymRepository.saveTrainerDetails(entity);
+
+    }
+
+    @Override
+    public List<TrainerInfoEntity> getAllTrainerDetails() {
+        return gymRepository.findAllTrainerList();
     }
 
 }

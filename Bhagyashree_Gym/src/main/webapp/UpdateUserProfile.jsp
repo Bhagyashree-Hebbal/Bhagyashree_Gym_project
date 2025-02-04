@@ -27,7 +27,7 @@
       <input type="number" name="weight">
 
       <label>Upload Your Picture</label>
-      <input type="file" name="filePath" >
+      <input type="file" name="picture">
 
       <button type="submit" class="btn btn-primary btn-center">Update Changes</button>
 

@@ -1,9 +1,7 @@
 package com.xworkz.gym.service;
 
 import com.xworkz.gym.dto.*;
-import com.xworkz.gym.entity.EnquiryEntity;
-import com.xworkz.gym.entity.FollowUpViewEntity;
-import com.xworkz.gym.entity.RegistrationEntity;
+import com.xworkz.gym.entity.*;
 
 import java.util.List;
 
@@ -71,4 +69,12 @@ public interface GymService {
     List<RegistrationEntity> getAllRegisteredUserDetailsById(int registrationId);
 
     RegistrationDTO updateUserProfile(String name,RegistrationDTO registrationDTO, String filePath);
+
+    //Slots and Trainers name
+    public boolean saveSlots(String startTimings, String endTimings, String duration);
+    public List<SlotTimingsEntity> getAllSlots();
+
+    public boolean saveTrainerDetails(String name, long phoneNumber, String slotTimings);
+    public List<TrainerInfoEntity> getAllTrainerDetails();
+
 }

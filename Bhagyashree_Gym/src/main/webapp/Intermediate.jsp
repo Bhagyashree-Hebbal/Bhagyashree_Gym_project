@@ -89,10 +89,7 @@
                         <a class="nav-link active" href="RegistrationUpdate.jsp"><i class="fas fa-edit"></i> Update</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="Slots.jsp"><i class="fas fa-calendar-alt"></i> Slots</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="Trainers.jsp"><i class="fas fa-dumbbell"></i> Trainers </a>
+                        <a class="nav-link active" href="SlotsTrainers.jsp"><i class="fas fa-calendar-alt"></i> SlotsTrainers</a>
                     </li>
                 </ul>
             </div>

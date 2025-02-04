@@ -1,9 +1,7 @@
 package com.xworkz.gym.repository;
 
 import com.xworkz.gym.dto.RegistrationDTO;
-import com.xworkz.gym.entity.EnquiryEntity;
-import com.xworkz.gym.entity.FollowUpViewEntity;
-import com.xworkz.gym.entity.RegistrationEntity;
+import com.xworkz.gym.entity.*;
 
 import java.util.List;
 
@@ -73,5 +71,13 @@ public interface GymRepository {
     List<RegistrationEntity> getAllRegisteredUserDetailsById(int registrationId);
 
     RegistrationDTO updateUserProfile(String name,RegistrationDTO registrationDTO, String filePath);
+
+    //Slots and Trainers Name
+    public boolean saveSlots(SlotTimingsEntity slotTimings);
+    List<SlotTimingsEntity> findAllSlots();
+
+    boolean saveTrainerDetails(TrainerInfoEntity entity);
+    List<TrainerInfoEntity> findAllTrainerList();
+
 }
 
