@@ -2,9 +2,7 @@ package com.xworkz.gym.controller;
 
 
 import com.xworkz.gym.dto.RegistrationDTO;
-import com.xworkz.gym.entity.FollowUpViewEntity;
 import com.xworkz.gym.entity.RegistrationEntity;
-import com.xworkz.gym.repository.GymRepository;
 import com.xworkz.gym.service.GymService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -72,12 +70,10 @@ public class UserLoginController {
                 return "ResetPassword";
             } else {
                 System.out.println("Redirecting to UserProfile page.");
-
                 String name = display.getName();
                 model.addAttribute("userName", name);
-
                 model.addAttribute("register",display);
-//                model.addAttribute("filePath",display.getFilePath());
+                model.addAttribute("filePath",display.getFilePath());
                 return "UserProfile";
             }
 
@@ -124,14 +120,29 @@ public class UserLoginController {
     }
 
     @GetMapping("/update")
-    public String onUpdateProfile( Model model)
+    public String onUpdateProfile( @RequestParam int registrationId ,Model model)
     {
         System.out.println("=============================update action+++========");
-        RegistrationEntity entity1=new RegistrationEntity();
-        int registrationId=entity1.getRegistrationId();
-        RegistrationEntity entity= (RegistrationEntity) gymService.getAllRegisteredUserDetailsById(registrationId);
-        model.addAttribute("register",entity);
-        model.addAttribute("filePath",entity.getFilePath());
+        RegistrationEntity entity=new RegistrationEntity();
+       // registrationId=entity.getRegistrationId();
+        System.out.println("Why Id is coming"+registrationId);
+        // Validate registrationId
+        if (registrationId <= 0) {
+            model.addAttribute("error", "Invalid user ID.");
+            return "ErrorPage";  // Redirect to an error page if no valid ID is found
+        }
+
+        // Fetch user details from service
+        List<RegistrationEntity> entities = gymService.getAllRegisteredUserDetailsById(registrationId);
+        if (entities != null && !entities.isEmpty()) {
+            RegistrationEntity entity1 = entities.get(0); // Get first user
+            model.addAttribute("register", entity1);
+            model.addAttribute("filePath", entity1.getFilePath());
+        } else {
+            model.addAttribute("error", "No user found with this ID");
+            return "ErrorPage";
+        }
+
         return "UpdateUserProfile";
     }
 

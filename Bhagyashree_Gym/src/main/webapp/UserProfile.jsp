@@ -134,10 +134,17 @@
                 <th>Balance Amount</th>
                 <td>${register.balance}</td>
             </tr>
-
+            <tr>
+                <th>Height</th>
+                <td>${register.height}</td>
+            </tr>
+            <tr>
+                <th>Weight</th>
+                <td>${register.weight}</td>
+            </tr>
         </table>
 
-        <a href="update"><button class="btn">Update Profile</button>
+        <a href="update?registrationId=${register.registrationId}"><button class="btn">Update Profile</button>
     </div>
 
 </body>
