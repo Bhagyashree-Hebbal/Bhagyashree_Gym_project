@@ -768,11 +768,12 @@ public class GymRepositoryImpl implements GymRepository {
     public List<TrainerInfoEntity> findAllTrainerList() {
         EntityManager em = emf.createEntityManager();
         EntityTransaction et = em.getTransaction();
+        List<TrainerInfoEntity> result=null;
 
         try {
             et.begin();
             Query query = em.createNamedQuery("GetTrainerInfoList");
-            List<TrainerInfoEntity> result = query.getResultList();
+            result = query.getResultList();
             et.commit();
             return result;
         } catch (Exception e) {
@@ -783,7 +784,7 @@ public class GymRepositoryImpl implements GymRepository {
         } finally {
             em.close();
         }
-        return null;
+        return result;
     }
 }
 

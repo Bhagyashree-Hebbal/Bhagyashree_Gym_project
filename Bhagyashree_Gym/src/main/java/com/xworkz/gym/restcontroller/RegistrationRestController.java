@@ -21,11 +21,11 @@ public class RegistrationRestController {
         log.info("name=" + name);
         Long count = this.gymService.getCountByRegiName(name);
         if (count == 0) {
-            System.out.println("does not exist");
-            return "not exist";
+            System.out.println("Name does not exist");
+            return "";
         } else {
-            System.out.println("exists");
-            return "exists";
+            System.out.println("Name exists");
+            return "";
         }
     }
 
@@ -34,11 +34,11 @@ public class RegistrationRestController {
         log.info("email=" + email);
         Long count = this.gymService.getCountByRegiEmail(email);
         if (count == 0) {
-            System.out.println("does not exist");
-            return "not exist";
+            System.out.println("Email does not exist");
+            return "";
         } else {
-            System.out.println("exists");
-            return "exists";
+            System.out.println("Email exists");
+            return "";
         }
     }
 
@@ -47,11 +47,11 @@ public class RegistrationRestController {
         log.info("phoneNo=" + phoneNo);
         Long count = this.gymService.getCountByRegiPhoneNo(phoneNo);
         if (count == 0) {
-            System.out.println("does not exist");
-            return "not exist";
+            System.out.println("Phone No does not exist");
+            return "";
         } else {
-            System.out.println("exists");
-            return "exists";
+            System.out.println("Phone No exists");
+            return "";
         }
     }
 
@@ -60,11 +60,11 @@ public class RegistrationRestController {
         log.info("Gym Name=" + gymName);
         Long count = this.gymService.getCountByGymName(gymName);
         if (count == 0) {
-            System.out.println("does not exist");
-            return "not exist";
+            System.out.println("GymName does not exist");
+            return "";
         } else {
-            System.out.println("exists");
-            return "exists";
+            System.out.println("GymName exists");
+            return "";
         }
     }
 
@@ -73,11 +73,11 @@ public class RegistrationRestController {
         log.info("Gym Trainer=" + gymTrainer);
         Long count = this.gymService.getCountByTrainer(gymTrainer);
         if (count == 0) {
-            System.out.println("does not exist");
-            return "not exist";
+            System.out.println("GymTrainer does not exist");
+            return "";
         } else {
-            System.out.println("exists");
-            return "exists";
+            System.out.println("GymTrainer exists");
+            return "";
         }
     }
 }

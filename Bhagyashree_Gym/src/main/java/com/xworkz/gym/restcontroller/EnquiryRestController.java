@@ -22,11 +22,11 @@ public class EnquiryRestController {
         System.out.println("name=" + name);
         Long count = this.gymService.getCountByName(name);
         if (count == 0) {
-            System.out.println("does not exist");
-            return "not exist";
+            System.out.println("Name does not exist");
+            return "";
         } else {
-            System.out.println("exists");
-            return "exists";
+            System.out.println("Name exists");
+            return "";
         }
     }
 
@@ -35,11 +35,11 @@ public class EnquiryRestController {
         System.out.println("area=" + area);
         Long count = this.gymService.getCountByArea(area);
         if (count == 0) {
-            System.out.println("does not exist");
-            return "not exist";
+            System.out.println("Area does not exist");
+            return "";
         } else {
-            System.out.println("exists");
-            return "exists";
+            System.out.println("Area exists");
+            return "";
         }
     }
 
@@ -48,11 +48,11 @@ public class EnquiryRestController {
         System.out.println("phoneNo=" + phoneNo);
         Long count = this.gymService.getCountByPhoneNo(phoneNo);
         if (count == 0) {
-            System.out.println("does not exist");
-            return "not exist";
+            System.out.println("Phone No does not exist");
+            return "";
         } else {
-            System.out.println("exists");
-            return "exists";
+            System.out.println("Phone no exists");
+            return "";
         }
     }
 
@@ -61,11 +61,11 @@ public class EnquiryRestController {
         System.out.println("distance=" + distance);
         Long count = this.gymService.getCountByDistance(distance);
         if (count == 0) {
-            System.out.println("does not exist");
-            return "not exist";
+            System.out.println("Distance does not exist");
+            return "";
         } else {
-            System.out.println("exists");
-            return "exists";
+            System.out.println("Distance exists");
+            return "";
         }
     }
 
@@ -74,11 +74,11 @@ public class EnquiryRestController {
         System.out.println("age=" + age);
         Long count = this.gymService.getCountByAge(age);
         if (count == 0) {
-            System.out.println("does not exist");
-            return "not exist";
+            System.out.println("Age does not exist");
+            return "";
         } else {
-            System.out.println("exists");
-            return "exists";
+            System.out.println("Age exists");
+            return "";
         }
     }
 

@@ -51,4 +51,16 @@ public class TrainerAllotmentController {
         return "SlotsTrainers";
     }
 
+    @GetMapping("trainersSlots")
+    public String displayTrainers( Model model) {
+        //boolean delete = gymService. ();
+        //if (delete) {
+            List<TrainerInfoEntity> trainerinfolist = gymService.getAllTrainerDetails();
+            trainerinfolist.forEach((n) -> System.out.println(n));
+            model.addAttribute("trainerInfoList", trainerinfolist);
+            return "SlotsTrainers";
+        }
+        //model.addAttribute("errorMessage", "Failed ");
+        //return "SlotsTrainers";
+    //}
 }

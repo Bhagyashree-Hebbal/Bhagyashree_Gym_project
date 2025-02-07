@@ -19,7 +19,8 @@
             flex-direction: column;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(to right, #f8f9fa, #eef2f3);
+            background-image: url(https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg);
+            background-size: cover;
         }
 
         /* Navbar Styling */
@@ -82,7 +83,7 @@
         }
 
         .btn-submit {
-            background-color: #007bff;
+            background-color: #0056b3;
             color: white;
             font-size: 1rem;
             font-weight: bold;
@@ -164,7 +165,7 @@
             <div class="mb-3 form-group">
                 <label for="gymPackage" class="form-label"><i class="fas fa-box"></i> Package</label>
                 <select class="form-control" id="gymPackage" name="gymPackage" required>
-                      <option value="" data-amount="0" style="color:black;">--select package--</option>
+                      <option value="" data-amount="0" style="color:black;">--Select Package--</option>
                       <option value="Silver" style="color: black;" data-amount="30000">Silver - 30000</option>
                       <option value="Premium" style="color: black;" data-amount="40000">Premium - 40000</option>
                       <option value="Gold" style="color: black;" data-amount="50000">Gold - 50,000</option>
@@ -185,7 +186,7 @@
             <div class="mb-3 form-group">
                 <label for="installment" class="form-label"><i class="fas fa-coins"></i> Installment</label>
                 <select class="form-control" id="installment" name="installment" required>
-                       <option>--select package--</option>
+                       <option>--Select Installment--</option>
                        <option>1</option>
                        <option>2</option>
                        <option>3</option>
@@ -211,40 +212,38 @@
     </div>
 
 <script>
-    // DOM Elements
-    const gymPackageSelect = document.getElementById("gymPackage");
-    const amountInput = document.getElementById("amount");
-    const paidAmountInput = document.getElementById("paidAmount");
-    const balanceInput = document.getElementById("balance");
+    document.addEventListener("DOMContentLoaded", function () {
+        const packageSelect = document.getElementById("gymPackage");
+        const amountInput = document.getElementById("amount");
+        const discountInput = document.getElementById("discount");
+        const paidAmountInput = document.getElementById("paidAmount");
+        const balanceInput = document.getElementById("balance");
 
-    // Update the amount field when a package is selected
-    gymPackageSelect.addEventListener("change", function () {
-        const selectedOption = gymPackageSelect.options[gymPackageSelect.selectedIndex];
-        const packageAmount = selectedOption.dataset.amount || 0;
-        amountInput.value = packageAmount;
-        updateBalance();
-    });
+        function calculateAmount() {
+            const selectedOption = packageSelect.options[packageSelect.selectedIndex];
+            const baseAmount = parseFloat(selectedOption.getAttribute("data-amount")) || 0;
+            const discount = parseFloat(discountInput.value) || 0;
 
-    // Calculate the balance dynamically when the paid amount is entered
-    paidAmountInput.addEventListener("input", updateBalance);
+            // Calculate discounted amount
+            const discountedAmount = baseAmount - (baseAmount * (discount / 100));
+            amountInput.value = discountedAmount.toFixed(2);
 
-    function updateBalance() {
-        const totalAmount = parseFloat(amountInput.value) || 0;
-        const paidAmount = parseFloat(paidAmountInput.value) || 0;
-        const balance = totalAmount - paidAmount;
-        balanceInput.value = balance >= 0 ? balance : 0;
-    }
-
-    // Optional: Form validation before submission
-    const form = document.querySelector("form");
-    form.addEventListener("submit", function (event) {
-        const totalAmount = parseFloat(amountInput.value) || 0;
-        const paidAmount = parseFloat(paidAmountInput.value) || 0;
-
-        if (paidAmount > totalAmount) {
-            alert("Paid amount cannot exceed the total amount.");
-            event.preventDefault(); // Prevent form submission
+            calculateBalance();
         }
+
+        function calculateBalance() {
+            const totalAmount = parseFloat(amountInput.value) || 0;
+            const paidAmount = parseFloat(paidAmountInput.value) || 0;
+
+            // Calculate remaining balance
+            const balance = totalAmount - paidAmount;
+            balanceInput.value = balance.toFixed(2);
+        }
+
+        // Event listeners for real-time updates
+        packageSelect.addEventListener("change", calculateAmount);
+        discountInput.addEventListener("input", calculateAmount);
+        paidAmountInput.addEventListener("input", calculateBalance);
     });
 </script>
 

@@ -76,5 +76,6 @@ public interface GymService {
 
     public boolean saveTrainerDetails(String name, long phoneNumber, String slotTimings);
     public List<TrainerInfoEntity> getAllTrainerDetails();
+    //public List<TrainerInfoEntity> getTrainerById();
 
 }

@@ -14,7 +14,8 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f8f9fa;
+            background-image: url(https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg);
+            background-size: cover;
         }
         .container {
             max-width: 400px;

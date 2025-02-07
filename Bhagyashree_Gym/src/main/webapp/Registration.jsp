@@ -13,11 +13,12 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: #f4f4f9;
+            background-image: url(https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg);
+            background-size: cover;
         }
 
         .navbar {
-            background: linear-gradient(120deg, #4f8fc0, #357aab);
+            background: linear-gradient(120deg, #007bff, #0056b3);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
@@ -64,7 +65,7 @@
             color: #007bff;
         }
         button[type="submit"] {
-            background: #4f8fc0;
+            background: #0056b3;
             border: none;
             color: white;
             padding: 10px 20px;
@@ -77,11 +78,11 @@
         }
 
         .footer {
-            background: #4f8fc0;
+            background: #0056b3;
             color: #fff;
             text-align: center;
             padding: 15px;
-            position: fixed;
+
             bottom: 0;
             width: 100%;
         }
@@ -144,10 +145,9 @@
                 </div>
                 <div class="mb-3">
                     <label for="age" class="form-label"><i class="fas fa-envelope"></i> Age</label>
-                    <input type="age" id="age" name="age" class="form-control" onChange="onRegiAgeChange()" placeholder="Enter your age" required>
-                    <span id="regiAge" style="color: red;"></span>
+                    <input type="age" id="age" name="age" class="form-control" onChange="onAge()" placeholder="Enter your age" required>
+                    <span id="userAge" style="color: red;"></span>
                 </div>
-
 
                 <div class="mb-3">
                     <label for="phoneNo" class="form-label"><i class="fas fa-phone"></i> Phone No</label>
@@ -164,7 +164,7 @@
                 <div class="mb-3">
                     <label for="gymPackage" class="form-label"><i class="fas fa-box"></i> Package</label>
                     <select class="form-control" id="gymPackage" name="gymPackage" required>
-                          <option value="" data-amount="0" style="color:black;">--select package--</option>
+                          <option value="" data-amount="0" style="color:black;">--Select Package--</option>
                           <option value="Silver" style="color: black;" data-amount="30000">Silver - 30000</option>
                           <option value="Premium" style="color: black;" data-amount="40000">Premium - 40000</option>
                           <option value="Gold" style="color: black;" data-amount="50000">Gold - 50,000</option>
@@ -191,7 +191,14 @@
 
                 <div class="mb-3">
                     <label for="installment" class="form-label"><i class="fas fa-coins"></i> Installment</label>
-                    <input type="number" step="0.01" id="installment" name="installment" class="form-control" placeholder="Enter installment amount" required>
+                    <select step="0.01" id="installment" name="installment" class="form-control" required>
+                         <option>--Select Installment--</option>
+                         <option>1</option>
+                         <option>2</option>
+                         <option>3</option>
+                         <option>4</option>
+                         <option>5</option>
+                    </select>
                 </div>
 
                 <div class="mb-3">
@@ -295,6 +302,27 @@
              }
              }
 
+             function onAge() {
+             console.log('this is on place age');
+             var age = document.getElementById('age');
+             var ageValue = age.value;
+
+             if (ageValue <= 18)
+                  {
+                     document.getElementById("userAge").innerHTML = "Age should be valid and above 18";
+                     return;
+             }else {
+                     document.getElementById("userAge").innerHTML = "";
+             }
+
+             var xhttp = new XMLHttpRequest();
+             xhttp.open("GET", "http://localhost:8080/Bhagyashree_Gym/age/" + ageValue);
+             xhttp.send();
+
+             xhttp.onload = function(){
+             document.getElementById("userAge").innerHTML = this.responseText;
+             }
+             }
 
              function onRegiPhoneNoChange() {
              console.log('this is on place regiPhoneNo');

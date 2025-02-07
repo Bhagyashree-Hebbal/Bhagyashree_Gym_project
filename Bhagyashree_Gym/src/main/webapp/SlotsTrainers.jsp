@@ -8,15 +8,38 @@
     <title>Trainer & Slot Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
-        .navbar { background-color: #007bff; }
-        .navbar-brand, .nav-link { color: #fff !important; }
-        .container { margin-top: 20px; }
-        .card { border: none; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-        .card-header { background-color: #007bff; color: #fff; font-weight: bold; }
-        .btn-primary:hover { background-color: #0056b3; }
-        .btn-success:hover { background-color: #218838; }
-        .table th, .table td { vertical-align: middle; }
+        body {
+        background-image: url(https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg);
+        background-size: cover;
+        font-family: Arial, sans-serif;
+        }
+        .navbar {
+         background-color: #007bff;
+         }
+        .navbar-brand, .nav-link {
+         color: #fff !important;
+         }
+        .container {
+         margin-top: 20px;
+         }
+        .card {
+         border: none;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+         }
+        .card-header {
+         background-color: #007bff;
+         color: #fff;
+         font-weight: bold;
+         }
+        .btn-primary:hover {
+         background-color: #0056b3;
+         }
+        .btn-success:hover {
+         background-color: #218838;
+         }
+        .table th, .table td {
+         vertical-align: middle;
+         }
     </style>
 </head>
 <body>

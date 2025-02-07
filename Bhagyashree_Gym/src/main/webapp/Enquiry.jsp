@@ -14,12 +14,13 @@
     <style>
         /* General Body Styling */
         body {
+            background-image: url(https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg);
+            background-size: cover;
             font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(to right, #f8f9fa, #eef2f3);
         }
 
         /* Navbar Styling */
@@ -82,7 +83,7 @@
         }
 
         .btn-submit {
-            background-color: #007bff;
+            background-color: #0056b3;
             color: white;
             font-size: 1rem;
             font-weight: bold;
@@ -101,7 +102,7 @@
 
         /* Footer Styling */
         .footer {
-            background-color: #4f8fc0;
+            background-color: #0056b3;
             color: white;
             text-align: center;
             padding: 15px 0;

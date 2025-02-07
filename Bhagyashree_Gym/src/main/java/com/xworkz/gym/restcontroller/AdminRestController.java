@@ -23,10 +23,10 @@ public class AdminRestController {
         Long count = this.gymService.getCountByAdminEmail(email);
         if (count == 0) {
             System.out.println("does not exist");
-            return "not exist";
+            return "";
         } else {
             System.out.println("exists");
-            return "exists";
+            return "";
         }
     }
 
@@ -36,10 +36,10 @@ public class AdminRestController {
         Long count = this.gymService.getCountByAdminPassword(password);
         if (count == 0) {
             System.out.println("Password does not exist");
-            return "does not exist";
+            return "Enter valid password";
         } else {
             System.out.println("Password is exists");
-            return "exists";
+            return "";
         }
     }
 

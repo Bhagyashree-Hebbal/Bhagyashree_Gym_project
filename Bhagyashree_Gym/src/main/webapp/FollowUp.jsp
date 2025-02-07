@@ -14,12 +14,13 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f7fc;
+            background-image: url(https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg);
+            background-size: cover;
         }
 
         /* Navbar Styling */
         .navbar {
-            background: linear-gradient(120deg, #4f8fc0, #357aab);
+            background: linear-gradient(120deg, #007bff, #0056b3);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
@@ -53,7 +54,7 @@
         }
 
         th {
-            background: linear-gradient(120deg, #89cff0, #4f8fc0);
+            background: linear-gradient(120deg, #007bff, #0056b3);
             color: white;
             font-weight: bold;
             border-bottom: 2px solid #ddd;
@@ -99,7 +100,8 @@
         }
 
         .btn {
-            background-color: #4f8fc0;
+        color:white;
+            background-color: #0056b3;
         }
 
         .btn:hover {
@@ -120,11 +122,11 @@
 
         /* Footer Styling */
         .footer {
-            background: #4f8fc0;
+            background: #0056b3;
             color: #fff;
             text-align: center;
             padding: 15px;
-            position: fixed;
+
             bottom: 0;
             width: 100%;
         }
